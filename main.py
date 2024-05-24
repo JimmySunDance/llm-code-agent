@@ -31,7 +31,7 @@ class CodeOutput(BaseModel):
 load_dotenv()
 Settings.embed_model = OllamaEmbedding(model_name="nomic-embed-text")
 
-default_llm = Ollama(model="llama3", request_timeout=300.0)
+default_llm = Ollama(model="phi3", request_timeout=30.0)
 code_llm = Ollama(model="codellama", request_timeout=30.0)
 
 
@@ -40,7 +40,8 @@ code_parser = PydanticOutputParser(CodeOutput)
 file_extractor = {".pdf": pdf_parser}
 
 documents = SimpleDirectoryReader(
-    input_dir="data", file_extractor=file_extractor,
+    input_dir="data", 
+    file_extractor=file_extractor,
 ).load_data()
 
 vector_index = VectorStoreIndex.from_documents(documents=documents)
